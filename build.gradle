@@ -17,6 +17,7 @@ sourceCompatibility = '1.7'
 
 repositories {
     mavenCentral()
+    jcenter()
     flatDir {
         dirs 'libs'
     }
@@ -84,4 +85,7 @@ dependencies {
     compile project(':slobber')
     compile project(':slobber').files('libs/simple-5.1.7.1.itkach.jar')
     compile files('libs/android-support-v13.jar')
+}
+dependencies {
+    compile 'com.ichi2.anki:api:1.1.0alpha6'
 }
