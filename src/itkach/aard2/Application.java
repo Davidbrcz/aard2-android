@@ -37,7 +37,7 @@ import java.util.Set;
 import itkach.slob.Slob;
 import itkach.slob.Slob.Blob;
 import itkach.slobber.Slobber;
-
+import android.content.Context;
 public class Application extends android.app.Application {
 
     public static final String LOCALHOST = "127.0.0.1";
@@ -78,6 +78,7 @@ public class Application extends android.app.Application {
 
     private static final String TAG = Application.class.getSimpleName();
 
+    private AnkiDroidExporter                           ankiExporter;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -96,7 +97,7 @@ public class Application extends android.app.Application {
             }
         }
         articleActivities = Collections.synchronizedList(new ArrayList<Activity>());
-
+        ankiExporter = new AnkiDroidExporter();
         FontIconTypefaceHolder.init(getAssets(), "fontawesome-4.2.0.ttf");
 
         mapper = new ObjectMapper();
@@ -163,6 +164,10 @@ public class Application extends android.app.Application {
         lookup(initialQuery, false);
         bookmarks.load();
         history.load();
+    }
+
+    public void buildAnkiHelper(Context ctx){
+        ankiExporter.buildAnkiHelper(ctx);
     }
 
     static String readTextFile(InputStream is, int maxSize) throws IOException, FileTooBigException {

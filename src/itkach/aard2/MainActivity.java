@@ -36,6 +36,7 @@ public class MainActivity extends FragmentActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Application app = (Application)getApplication();
+        app.buildAnkiHelper(this);
         app.installTheme(this);
         setContentView(R.layout.activity_main);
 
