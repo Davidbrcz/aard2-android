@@ -4,10 +4,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.ichi2.anki.api.AddContentApi;
+import com.ichi2.anki.api.NoteInfo;
 
 public class AnkiDroidExporter {
     private AnkiDroidHelper mAnkiDroid;
@@ -44,6 +48,9 @@ public class AnkiDroidExporter {
         return mid;
     }
 
+    void test(){
+        addCardsToAnkiDroid(AnkiDroidConfig.getExampleData());
+    }
     /**
      * Use the instant-add API to add flashcards directly to AnkiDroid.
      * @param data List of cards to be added. Each card has a HashMap of field name / field value pairs.

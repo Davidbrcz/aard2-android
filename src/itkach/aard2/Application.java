@@ -78,7 +78,7 @@ public class Application extends android.app.Application {
 
     private static final String TAG = Application.class.getSimpleName();
 
-    private AnkiDroidExporter                           ankiExporter;
+    public AnkiDroidExporter                           ankiExporter;
     @Override
     public void onCreate() {
         super.onCreate();

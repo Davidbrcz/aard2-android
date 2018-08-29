@@ -90,6 +90,7 @@ public class ArticleFragment extends Fragment {
                     displayBookmarked(false);
                 } else {
                     app.addBookmark(this.url);
+                    app.ankiExporter.test();
                     displayBookmarked(true);
                 }
             }
