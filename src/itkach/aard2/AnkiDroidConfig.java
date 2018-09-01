@@ -11,14 +11,13 @@ import java.util.Set;
 /** Some fields to store configuration details for AnkiDroid **/
 final class AnkiDroidConfig {
     // Name of deck which will be created in AnkiDroid
-    public static final String DECK_NAME = "API Sample";
+    public static final String DECK_NAME = "PIPO";
     // Name of model which will be created in AnkiDroid
-    public static final String MODEL_NAME = "com.ichi2.apisample";
+    public static final String MODEL_NAME = "com.ichi2.apisample2";
     // Optional space separated list of tags to add to every note
     public static final Set<String> TAGS = new HashSet<String>(Collections.singletonList("API_Sample_App"));
     // List of field names that will be used in AnkiDroid model
-    public static final String[] FIELDS = {"Expression","Reading","Meaning","Furigana","Grammar","Sentence",
-            "SentenceFurigana","SentenceMeaning"};
+    public static final String[] FIELDS = {"Expression","Meaning"};
     // List of card names that will be used in AnkiDroid (one for each direction of learning)
     public static final String[] CARD_NAMES = {"Japanese>English", "English>Japanese"};
     // CSS to share between all the cards (optional). User will need to install the NotoSans font by themselves
@@ -36,21 +35,15 @@ final class AnkiDroidConfig {
             ".big { font-size: 48px; }\n" +
             ".small { font-size: 18px;}\n";
     // Template for the question of each card
-    static final String QFMT1 = "<div class=big>{{Expression}}</div><br>{{Grammar}}";
-    static final String QFMT2 = "{{Meaning}}<br><br><div class=small>{{Grammar}}<br><br>({{SentenceMeaning}})</div>";
+    static final String QFMT1 = "<div class=big>{{Expression}}</div>";
+    static final String QFMT2 = "{{Meaning}}";
     public static final String[] QFMT = {QFMT1, QFMT2};
     // Template for the answer (use identical for both sides)
-    static final String AFMT1 = "<div class=big>{{furigana:Furigana}}</div><br>{{Meaning}}\n" +
-            "<br><br>\n" +
-            "{{furigana:SentenceFurigana}}<br>\n" +
-            "<a href=\"#\" onclick=\"document.getElementById('hint').style.display='block';return false;\">Sentence Translation</a>\n" +
-            "<div id=\"hint\" style=\"display: none\">{{SentenceMeaning}}</div>\n" +
-            "<br><br>\n" +
-            "{{Grammar}}<br><div class=small>{{Tags}}</div>";
+    static final String AFMT1 = "<div class=big>{{Expression}}</div><br>{{Meaning}}\n";
     public static final String[] AFMT = {AFMT1, AFMT1};
     // Define two keys which will be used when using legacy ACTION_SEND intent
     public static final String FRONT_SIDE_KEY = FIELDS[0];
-    public static final String BACK_SIDE_KEY = FIELDS[2];
+    public static final String BACK_SIDE_KEY = FIELDS[1];
 
     /**
      * Generate the ArrayList<HashMap> example data which will be sent to AnkiDroid
@@ -78,6 +71,20 @@ final class AnkiDroidConfig {
             hm.put(FIELDS[5], EXAMPLE_SENTENCE[idx]);
             hm.put(FIELDS[6], EXAMPLE_SENTENCE_FURIGANA[idx]);
             hm.put(FIELDS[7], EXAMPLE_SENTENCE_MEANING[idx]);
+            data.add(hm);
+        }
+        return data;
+    }
+
+    public static List<Map<String, String>> getExampleData2() {
+        final String[] EXAMPLE_WORDS = {"house", "spoon", "tree"};
+        final String[] EXAMPLE_TRANSLATIONS = {"maison", "cuillière", "arbre"};
+
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+        for (int idx = 0; idx < EXAMPLE_WORDS.length; idx++) {
+            Map<String, String> hm = new HashMap<String, String>();
+            hm.put(FIELDS[0], EXAMPLE_WORDS[idx]);
+            hm.put(FIELDS[2], EXAMPLE_TRANSLATIONS[idx]);
             data.add(hm);
         }
         return data;

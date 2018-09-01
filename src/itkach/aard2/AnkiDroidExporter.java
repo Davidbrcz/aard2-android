@@ -18,9 +18,9 @@ public class AnkiDroidExporter {
 
 
     public void buildAnkiHelper(Context context) {
-        mAnkiDroid = new AnkiDroidHelper(context);
+        mAnkiDroid = new AnkiDroidHelper(context); ctx = context;
     }
-
+    Context ctx;
     /**
      * get the deck id
      * @return might be null if there was a problem
@@ -49,7 +49,14 @@ public class AnkiDroidExporter {
     }
 
     void test(){
-        addCardsToAnkiDroid(AnkiDroidConfig.getExampleData());
+        //addCardsToAnkiDroid(AnkiDroidConfig.getExampleData2());
+        if (AddContentApi.getAnkiDroidPackageName(ctx) != null) {
+            // API available: Add deck and model if required, then add your note
+            final AddContentApi api = new AddContentApi(ctx);
+            long deckId = getDeckId();
+            long modelId = getModelId();
+            api.addNote(modelId, deckId, new String[] {"house", "maison"}, null);
+        }
     }
     /**
      * Use the instant-add API to add flashcards directly to AnkiDroid.
