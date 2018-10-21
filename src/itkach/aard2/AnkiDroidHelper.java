@@ -18,6 +18,12 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import java.net.*;
+import java.io.*;
+import java.util.concurrent.ExecutionException;
+
+import android.os.AsyncTask;
+
 import static com.ichi2.anki.api.AddContentApi.READ_WRITE_PERMISSION;
 
 public class AnkiDroidHelper {
@@ -26,6 +32,22 @@ public class AnkiDroidHelper {
 
     private AddContentApi mApi;
     private Context mContext;
+
+    public static String downloadURL(String url){
+        Downloader downloader = new Downloader();
+        try{
+            downloader.execute(new URL(url));
+            return downloader.get();
+        }
+         catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public AnkiDroidHelper(Context context) {
         mContext = context.getApplicationContext();

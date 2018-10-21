@@ -22,7 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.shamanland.fonticon.FontIconDrawable;
-
+import java.net.URL;
 public class ArticleFragment extends Fragment {
 
     public static final String ARG_URL = "articleUrl";
@@ -34,6 +34,7 @@ public class ArticleFragment extends Fragment {
     private Drawable        icBookmarkO;
     private Drawable        icFullscreen;
     private String          url;
+
 
 
     @Override
@@ -90,6 +91,9 @@ public class ArticleFragment extends Fragment {
                     displayBookmarked(false);
                 } else {
                     app.addBookmark(this.url);
+                    Log.d("PIPO","BEFORE");
+                    String content = AnkiDroidHelper.downloadURL(url);
+                    Log.d("PIPO",content);
                     app.ankiExporter.test();
                     displayBookmarked(true);
                 }
