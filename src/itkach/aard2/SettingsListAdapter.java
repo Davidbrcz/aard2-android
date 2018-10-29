@@ -32,6 +32,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import itkach.aard2.AnkiExporter.AnkiHelper;
+
 public class SettingsListAdapter extends BaseAdapter implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     final static int CSS_SELECT_REQUEST = 13;
@@ -463,7 +465,7 @@ public class SettingsListAdapter extends BaseAdapter implements SharedPreference
         CheckedTextView toggle = (CheckedTextView) view.findViewById(R.id.setting_export_word_to_anki);
         boolean currentValue = app.exportWordsToAnki();
         toggle.setChecked(currentValue);
-
+        toggle.setEnabled(AnkiHelper.isAnkiAPIAvailable(parent.getContext()));
         return view;
     }
 
