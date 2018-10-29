@@ -50,10 +50,11 @@ public class SettingsListAdapter extends BaseAdapter implements SharedPreference
     final static int POS_UI_THEME = 0;
     final static int POS_REMOTE_CONTENT = 1;
     final static int POS_FAV_RANDOM = 2;
-    final static int POS_USE_VOLUME_FOR_NAV = 3;
-    final static int POS_USER_STYLES = 4;
-    final static int POS_CLEAR_CACHE = 5;
-    final static int POS_ABOUT = 6;
+    final static int POS_EXPORT_FAV_ANKI = 3;
+    final static int POS_USE_VOLUME_FOR_NAV = 4;
+    final static int POS_USER_STYLES = 5;
+    final static int POS_CLEAR_CACHE = 6;
+    final static int POS_ABOUT = 7;
 
     SettingsListAdapter(Fragment fragment) {
         this.fragment = fragment;
@@ -74,7 +75,7 @@ public class SettingsListAdapter extends BaseAdapter implements SharedPreference
 
     @Override
     public int getCount() {
-        return 7;
+        return 8;
     }
 
     @Override
@@ -103,6 +104,7 @@ public class SettingsListAdapter extends BaseAdapter implements SharedPreference
             case POS_UI_THEME: return getUIThemeSettingsView(convertView, parent);
             case POS_REMOTE_CONTENT: return getRemoteContentSettingsView(convertView, parent);
             case POS_FAV_RANDOM: return getFavRandomSwitchView(convertView, parent);
+            case POS_EXPORT_FAV_ANKI: return getFavExportAnki(convertView, parent);
             case POS_USE_VOLUME_FOR_NAV: return getUseVolumeForNavView(convertView, parent);
             case POS_USER_STYLES: return getUserStylesView(convertView, parent);
             case POS_CLEAR_CACHE: return getClearCacheView(convertView, parent);
@@ -432,6 +434,36 @@ public class SettingsListAdapter extends BaseAdapter implements SharedPreference
             versionView.setText(Html.fromHtml(version));
 
         }
+        return view;
+    }
+
+    private View getFavExportAnki(View convertView, ViewGroup parent) {
+        View view;
+        if (convertView != null) {
+            view = convertView;
+        } else {
+            LayoutInflater inflater = (LayoutInflater) parent.getContext()
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            final Application app = (Application) context.getApplication();
+
+
+            view = inflater.inflate(R.layout.settings_export_words_to_anki, parent,
+                    false);
+            final CheckedTextView toggle = (CheckedTextView) view.findViewById(R.id.setting_export_word_to_anki);
+            toggle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean currentValue = app.exportWordsToAnki();
+                    boolean newValue = !currentValue;
+                    app.setExportWordsToAnki(newValue);
+                    toggle.setChecked(newValue);
+                }
+            });
+        }
+        CheckedTextView toggle = (CheckedTextView) view.findViewById(R.id.setting_export_word_to_anki);
+        boolean currentValue = app.exportWordsToAnki();
+        toggle.setChecked(currentValue);
+
         return view;
     }
 

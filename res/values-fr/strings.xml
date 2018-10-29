@@ -102,5 +102,5 @@
     <string name="auto_style_title">Auto</string>
     <string name="action_fullscreen">Plein écran</string>
     <string name="setting_use_volume_for_nav">Utiliser les boutons du volume +/- pour haut/bas</string>
-
+    <string name="setting_export_word_to_anki">Exporter les mots favoris dans Anki</string>
 </resources>
