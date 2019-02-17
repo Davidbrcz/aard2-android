@@ -46,6 +46,7 @@ public class Downloader extends AsyncTask<URL, Integer, String> {
         try{
             downloader.execute(new URL(url));
             String html = downloader.get();
+            return html;
         }
         catch (MalformedURLException e) {
             e.printStackTrace();
