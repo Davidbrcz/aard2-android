@@ -1,8 +1,11 @@
 package itkach.aard2.AnkiExporter;
 
 import com.ichi2.anki.api.AddContentApi;
+import com.ichi2.anki.api.NoteInfo;
 
 import android.content.Context;
+import android.provider.ContactsContract;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +28,10 @@ public class AnkiHelper {
         return AddContentApi.getAnkiDroidPackageName(context) != null;
     }
 
+    public boolean isAlreadyIn(long modelId,String key){
+        List<NoteInfo> noteInfos = mApi.findDuplicateNotes(modelId,key);
+        return (noteInfos.size() != 0);
+    }
     /**
      * If there's a model from #getModelList with modelName and required number of fields then return its ID
      * Otherwise return null

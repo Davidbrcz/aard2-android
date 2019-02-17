@@ -1,9 +1,6 @@
 package itkach.aard2.AnkiExporter;
 
-import com.ichi2.anki.api.AddContentApi;
-import com.ichi2.anki.api.NoteInfo;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -15,7 +12,10 @@ public class AnkiManager {
         String[] wordsplit = split(content);
         long deckId = getDeckId();
         long modelId = getModelId();
-        helper.getApi().addNote(modelId, deckId, new String[] {wordsplit[0], wordsplit[1]}, null);
+        String[] fields = new String[] {wordsplit[0], wordsplit[1]};
+        if(!helper.isAlreadyIn(modelId,wordsplit[0])){
+            helper.getApi().addNote(modelId, deckId, fields, null);
+        }
     }
     public void removeWord(String s){
 
@@ -57,15 +57,14 @@ public class AnkiManager {
      * @return might be null if there was an error
      */
     private void createModelIfNeeded() {
-        Long mid = helper.findModelIdByName(MODEL_NAME, FIELDS.length);
+        Long mid = helper.findModelIdByName(MODEL_NAME, NB_FIELDS);
         if (mid == null) {
-            helper.getApi().addNewCustomModel(MODEL_NAME,FIELDS,
-                    CARD_NAMES,QFMT, AFMT, "", getDeckId(), null);
+            helper.getApi().addNewBasicModel(MODEL_NAME);
         }
     }
 
     private Long getModelId() {
-        return helper.findModelIdByName(MODEL_NAME, FIELDS.length);
+        return helper.findModelIdByName(MODEL_NAME, NB_FIELDS);
     }
 
     public void buildAnkiHelper(Context context) {
@@ -77,13 +76,6 @@ public class AnkiManager {
     private AnkiHelper helper;
 
     public static final String DECK_NAME = "Aard2";
-    public static final String[] FIELDS = {"Expression","Meaning"};
     public static final String MODEL_NAME = "rawDumpFromAard2";
-    public static final String[] CARD_NAMES = {"Word>Meaning"};
-    static final String QFMT1 = "<div class=big>{{Expression}}</div>";
-    static final String QFMT2 = "{{Meaning}}";
-    public static final String[] QFMT = {QFMT1};
-
-    static final String AFMT1 = "<div class=big>{{Expression}}</div><br>{{Meaning}}\n";
-    public static final String[] AFMT = {QFMT2};
+    public static final int NB_FIELDS = 2;
 }
