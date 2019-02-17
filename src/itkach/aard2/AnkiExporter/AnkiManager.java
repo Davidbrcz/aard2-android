@@ -3,17 +3,19 @@ package itkach.aard2.AnkiExporter;
 import com.ichi2.anki.api.AddContentApi;
 import com.ichi2.anki.api.NoteInfo;
 import android.content.Context;
+import android.util.Log;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class AnkiManager {
 
     public void addEntry(String url){
         String content = Downloader.getWordDef(url);
-        String word = extractWord(content);
-        String def = extractDef(content);
-
+        String[] wordsplit = split(content);
         long deckId = getDeckId();
         long modelId = getModelId();
-        helper.getApi().addNote(modelId, deckId, new String[] {word, def}, null);
+        helper.getApi().addNote(modelId, deckId, new String[] {wordsplit[0], wordsplit[1]}, null);
     }
     public void removeWord(String s){
 
@@ -26,10 +28,15 @@ public class AnkiManager {
         createDeckIfNeeded();
         createModelIfNeeded();
     }
-    private String extractWord(String content){
-        return  "house";
+    private String[] split(String content){
+        final Pattern pattern = Pattern.compile("<h1>(.+?)</h1>", Pattern.DOTALL);
+        final Matcher matcher = pattern.matcher(content);
+        matcher.find();
+        String[] ret = new String[2];
+        ret[0] = matcher.group(1);
+        ret[1] = content.substring(matcher.end());
+        return ret;
     }
-    private String extractDef(String content){return "maison";}
 
     /**
      * get the deck id
@@ -72,11 +79,11 @@ public class AnkiManager {
     public static final String DECK_NAME = "Aard2";
     public static final String[] FIELDS = {"Expression","Meaning"};
     public static final String MODEL_NAME = "rawDumpFromAard2";
-    public static final String[] CARD_NAMES = {"Word>Meaning", "Meaning>Word"};
+    public static final String[] CARD_NAMES = {"Word>Meaning"};
     static final String QFMT1 = "<div class=big>{{Expression}}</div>";
     static final String QFMT2 = "{{Meaning}}";
-    public static final String[] QFMT = {QFMT1, QFMT2};
+    public static final String[] QFMT = {QFMT1};
 
     static final String AFMT1 = "<div class=big>{{Expression}}</div><br>{{Meaning}}\n";
-    public static final String[] AFMT = {AFMT1, AFMT1};
+    public static final String[] AFMT = {QFMT2};
 }
