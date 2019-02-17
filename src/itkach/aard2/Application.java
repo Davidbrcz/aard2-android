@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.webkit.WebView;
+import android.content.Context;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import itkach.aard2.AnkiExporter.AnkiManager;
 import itkach.slob.Slob;
 import itkach.slob.Slob.Blob;
 import itkach.slobber.Slobber;
@@ -78,7 +80,7 @@ public class Application extends android.app.Application {
     static final String PREF_EXPORT_WORD_TO_ANKI        = "exportWordToAnki";
 
     private static final String TAG = Application.class.getSimpleName();
-
+    public AnkiManager ankiExporter;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -109,7 +111,7 @@ public class Application extends android.app.Application {
         historyStore = new DescriptorStore<BlobDescriptor>(mapper, getDir(
                 "history", MODE_PRIVATE));
         slobber = new Slobber();
-
+        ankiExporter = new AnkiManager();
         long t0 = System.currentTimeMillis();
 
         startWebServer();
@@ -164,6 +166,10 @@ public class Application extends android.app.Application {
         lookup(initialQuery, false);
         bookmarks.load();
         history.load();
+    }
+
+    public void buildAnkiHelper(Context ctx){
+        ankiExporter.buildAnkiHelper(ctx);
     }
 
     static String readTextFile(InputStream is, int maxSize) throws IOException, FileTooBigException {

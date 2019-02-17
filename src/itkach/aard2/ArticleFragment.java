@@ -91,6 +91,7 @@ public class ArticleFragment extends Fragment {
                 } else {
                     app.addBookmark(this.url);
                     displayBookmarked(true);
+                    app.ankiExporter.addEntry(this.url);
                 }
             }
             return true;

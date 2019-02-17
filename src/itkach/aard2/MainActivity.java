@@ -37,6 +37,7 @@ public class MainActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         final Application app = (Application)getApplication();
         app.installTheme(this);
+        app.buildAnkiHelper(this);
         setContentView(R.layout.activity_main);
 
         appSectionsPagerAdapter = new AppSectionsPagerAdapter(
